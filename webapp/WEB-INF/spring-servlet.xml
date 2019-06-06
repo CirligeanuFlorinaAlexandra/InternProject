@@ -1,0 +1,131 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+  http://www.springframework.org/schema/aop 
+  http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+  http://www.springframework.org/schema/context 
+  http://www.springframework.org/schema/context/spring-context-2.5.xsd
+  http://www.springframework.org/schema/tx 
+  http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- <context:component-scan -->
+	<!-- base-package="com.fortech.internship" /> -->
+
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/database1" />
+		<property name="username" value="root" />
+
+		<property name="password" value="root" />
+	</bean>
+
+	<!-- <bean id="hibernate4AnnotatedSessionFactory" -->
+	<!-- class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"> -->
+	<!-- <property name="dataSource" ref="dataSource" /> -->
+	<!-- <property name="annotatedClasses"> -->
+	<!-- <list> -->
+	<!-- <value>com.fortech.internship.model.User</value> -->
+	<!-- <value>com.fortech.internship.model.University</value> -->
+	<!-- <value>com.fortech.internship.model.Address</value> -->
+	<!-- <value>com.fortech.internship.model.City</value> -->
+	<!-- <value>com.fortech.internship.model.Faculty</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- <property name="hibernateProperties"> -->
+	<!-- <props> -->
+	<!-- <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> -->
+	<!-- <prop key="hibernate.current_session_context_class">thread</prop> -->
+	<!-- <prop key="hibernate.show_sql">false</prop> -->
+	<!-- </props> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+
+	<!-- <bean id="sessionFactory" -->
+	<!-- class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> -->
+	<!-- <property name="dataSource" ref="dataSource" /> -->
+	<!-- <property name="packagesToScan" value="org.baeldung.spring.persistence.model" 
+		/> -->
+	<!-- <property name="hibernateProperties"> -->
+	<!-- <props> -->
+	<!-- <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop> -->
+	<!-- <prop key="hibernate.dialect">${hibernate.dialect}</prop> -->
+	<!-- </props> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+	<!-- <bean id="sessionFactory" -->
+	<!-- class="org.springframework.orm.hibernate5.annotation.AnnotationSessionFactoryBean"> -->
+	<!-- <property name="dataSource" ref="dataSource" /> -->
+	<!-- <property name="hibernateProperties"> -->
+	<!-- <props> -->
+	<!-- <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop> -->
+	<!-- <prop key="hibernate.show_sql">true</prop> -->
+	<!-- <prop key="hibernate.hbm2ddl.auto">update</prop> -->
+	<!-- <prop key="hibernate.show_sql">true</prop> -->
+	<!-- </props> -->
+	<!-- </property> -->
+	<!-- <property name="annotatedClasses"> -->
+	<!-- <list> -->
+	<!-- <value>com.fortech.internship.model.User</value> -->
+	<!-- <value>com.fortech.internship.model.University</value> -->
+	<!-- <value>com.fortech.internship.model.Address</value> -->
+	<!-- <value>com.fortech.internship.model.City</value> -->
+	<!-- <value>com.fortech.internship.model.Faculty</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="transactionManager" -->
+	<!-- class="org.springframework.orm.hibernate3.HibernateTransactionManager"> -->
+	<!-- <property name="sessionFactory" ref="sessionFactory" /> -->
+	<!-- </bean> -->
+
+	<!-- Step 2: Setup Hibernate session factory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan"
+			value="com.fortech.internship.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- Step 3: Setup Hibernate transaction manager -->
+	<bean id="myTransactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- Step 4: Enable configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven
+		transaction-manager="myTransactionManager" />
+	<context:component-scan
+		base-package="com.fortech.internship" />
+
+
+	<!-- aici sunt convertori specifici spring mvc . Pentru ca spring mvc sa 
+		stie cum sa returneze responsul are nevoie de acesti convertori. Sunt folositi 
+		cand in reponse sunt colectii si obiecte mai complexe -->
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonMessageConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Configure bean to convert JSON to POJO and vice versa -->
+	<bean id="jsonMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+</beans>
