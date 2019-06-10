@@ -21,10 +21,10 @@
 		<property name="driverClassName"
 			value="com.mysql.cj.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://localhost:3306/database1" />
+			value="jdbc:mysql://localhost:3306/database1?serverTimezone=UTC" />
 		<property name="username" value="root" />
 
-		<property name="password" value="root" />
+		<property name="password" value="" />
 	</bean>
 
 	<!-- <bean id="hibernate4AnnotatedSessionFactory" -->

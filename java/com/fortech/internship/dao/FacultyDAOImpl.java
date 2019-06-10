@@ -1,24 +1,17 @@
 package com.fortech.internship.dao;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
 
+import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fortech.internship.dto.CityDTO;
-import com.fortech.internship.dto.FacultyDTO;
-import com.fortech.internship.dto.UniversityDTO;
 import com.fortech.internship.model.Faculty;
-import com.fortech.internship.model.University;
-import com.fortech.internship.model.User;
 
-@Component
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class FacultyDAOImpl implements FacultyDAO {
@@ -42,7 +35,31 @@ public class FacultyDAOImpl implements FacultyDAO {
 	@Override
 	public List<Faculty> getAllFaculties() {
 		Session session = sessionFactory.getCurrentSession();
-		List<Faculty> faculties = session.createQuery("select fac from Faculty fac").getResultList();
+		List<Faculty> faculties = session.createQuery(
+				"select fac from Faculty fac").getResultList();
+		return faculties;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public List<Faculty> getFacultiesByUniversityName(String name) {
+		Session session = sessionFactory.getCurrentSession();
+		List<Faculty> faculties = session.createQuery(
+				"select f from Faculty as f join f.university as univ where univ.name='"
+						+ name + "'").list();
+
+		return faculties;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public List<Faculty> getFacultiesByCityName(String name) {
+		Session session = sessionFactory.getCurrentSession();
+		List<Faculty> faculties = session
+				.createQuery(
+						"select f from Faculty f join City c on f.address.id = c.address.id where c.name='"
+								+ name + "'").list();
+
 		return faculties;
 	}
 
@@ -60,7 +77,10 @@ public class FacultyDAOImpl implements FacultyDAO {
 
 	@Override
 	public Faculty getFacultyByName(String name) {
-		return (Faculty) sessionFactory.getCurrentSession()
-				.createQuery("select fac from Faculty stu where fac.name='" + name + "'").getSingleResult();
+		return (Faculty) sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"select fac from Faculty stu where fac.name='" + name
+								+ "'").getSingleResult();
 	}
 }

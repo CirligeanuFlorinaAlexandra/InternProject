@@ -15,8 +15,6 @@ import com.fortech.internship.dto.UniversityDTO;
 import com.fortech.internship.model.City;
 import com.fortech.internship.model.University;
 
-
-@Component
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public class UniversityDAOImpl implements UniversityDAO {
@@ -25,11 +23,8 @@ public class UniversityDAOImpl implements UniversityDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public void createUniversity(UniversityDTO universityDTO) {
+	public void createUniversity(University university) {
 		Session session = sessionFactory.getCurrentSession();
-		University university = new University();
-		university.setName(universityDTO.getName());
-		university.setCity(session.get(City.class, universityDTO.getCityDTO().getId()));
 		session.save(university);
 	}
 
@@ -61,5 +56,5 @@ public class UniversityDAOImpl implements UniversityDAO {
 	public University getUniversityByName(String name) {
 		return (University) sessionFactory.getCurrentSession()
 			.createQuery("select uni from University uni where uni.name='" + name + "'").getSingleResult();
-}
+	}
 }

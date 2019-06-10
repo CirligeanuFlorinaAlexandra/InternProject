@@ -15,45 +15,8 @@ import com.fortech.internship.model.Address;
 import com.fortech.internship.service.impl.AddressService;
 
 @RestController
+@RequestMapping(value="/address")
 public class AddressController {
-
-	/*
-	 * @Autowired private AddressDAO addressDAOImpl;
-	 * 
-	 *//*** Creating a new Address ***/
-	/*
-	 * @RequestMapping(value = "/createAddress", method = RequestMethod.POST,
-	 * produces = { MediaType.APPLICATION_JSON_VALUE }, consumes = {
-	 * MediaType.APPLICATION_JSON_VALUE }) public void createAddress(@RequestBody
-	 * AddressDTO addressDTO) { addressDAOImpl.createAddress(addressDTO); }
-	 * 
-	 * 
-	 *//*** Retrieve a single Address ***/
-	/*
-	 * @RequestMapping(value = "/address/{id}", produces = "application/json",
-	 * method = RequestMethod.GET) public AddressDTO
-	 * getFacultyById(@PathVariable("id") int id) { AddressDTO address =
-	 * addressDAOImpl.getAddressById(id); return address; }
-	 * 
-	 *//*** Retrieve all Faculties ***/
-	/*
-	 * @RequestMapping(value = "/adresses", produces = "application/json", method =
-	 * RequestMethod.GET) public List<AddressDTO> getAllAddresses() { return
-	 * addressDAOImpl.getAllAddresses(); }
-	 * 
-	 *//*** Update an Address ***/
-	/*
-	 * @RequestMapping(value = "/updateAddress", method = RequestMethod.PUT,
-	 * produces = "application/json", consumes = "application/json") public void
-	 * updateAddress(@RequestBody AddressDTO addressDTO) { boolean updatedAddress =
-	 * addressDAOImpl.updateAddress(addressDTO); System.out.println(updatedAddress);
-	 * }
-	 * 
-	 *//*** Delete an Address ***//*
-									 * @RequestMapping(value = "/deleteAddress/{id}", method = RequestMethod.DELETE,
-									 * produces = "application/json") public void deleteAddress(@PathVariable("id")
-									 * int id) { addressDAOImpl.deleteAddress(id); } }
-									 */
 
 	@Autowired
 	private AddressService addressService;
@@ -61,7 +24,7 @@ public class AddressController {
 	/**
 	 * * Creating a new Address **
 	 */
-	@RequestMapping(value = "/createAddress", method = RequestMethod.POST, produces = {
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE })
 	public void createAddress(@RequestBody AddressDTO addressDTO) {
 		addressService.createAddress(addressDTO);
@@ -70,7 +33,7 @@ public class AddressController {
 	/**
 	 * * Retrieve a single Address **
 	 */
-	@RequestMapping(value = "/address/{id}", produces = "application/json", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", produces = "application/json", method = RequestMethod.GET)
 	public Address getAddressById(@PathVariable("id") int id) {
 		Address address = addressService.getAddressById(id);
 		return address;
@@ -80,7 +43,7 @@ public class AddressController {
 	 * * Retrieve all Addresses **
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/adresses", produces = "application/json", method = RequestMethod.GET)
+	@RequestMapping(value = "/all", produces = "application/json", method = RequestMethod.GET)
 	public List getAllAddresses() {
 		List addressList = (List) addressService.getAllAddresses();
 		return addressList;
@@ -89,7 +52,7 @@ public class AddressController {
 	/**
 	 * * Update an Address **
 	 */
-	@RequestMapping(value = "/updateAddress", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
 	public void updateAddress(@RequestBody AddressDTO addressDTO) {
 		boolean updatedAddress = addressService.updateAddress(addressDTO);
 		System.out.println(updatedAddress);
@@ -99,7 +62,7 @@ public class AddressController {
 	 * * Delete an Address **
 	 */
 
-	@RequestMapping(value = "/deleteAddress/{id}", method = RequestMethod.DELETE, produces = "application/json")
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = "application/json")
 	public void deleteAddress(@PathVariable("id") int id) {
 		addressService.deleteAddress(id);
 	}

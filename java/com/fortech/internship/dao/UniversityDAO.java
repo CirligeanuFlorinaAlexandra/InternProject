@@ -5,7 +5,7 @@ import com.fortech.internship.model.University;
 
 public interface UniversityDAO {
 	
-	public void createUniversity(UniversityDTO university);
+	public void createUniversity(University university);
 	
 	public University getUniversityById(int id);
 	

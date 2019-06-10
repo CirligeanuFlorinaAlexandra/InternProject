@@ -1,7 +1,5 @@
 package com.fortech.internship.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 
 import javax.persistence.Table;
@@ -12,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
 
 @Entity
 @Table(name = "university")

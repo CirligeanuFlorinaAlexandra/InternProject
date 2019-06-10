@@ -1,7 +1,5 @@
 package com.fortech.internship.dto;
 
-import com.fortech.internship.model.City;
-
 public class CityDTO {
 	private int id;
 	private String name;
@@ -16,14 +14,6 @@ public class CityDTO {
 		this.name = name;
 		this.id = id;
 		this.addressDTO = addressDTO;
-	}
-
-	public CityDTO(City city) {
-		this.name = city.getName();
-
-		this.id = city.getId();
-
-		this.addressDTO = new AddressDTO(city.getAddress());
 	}
 
 	public int getId() {

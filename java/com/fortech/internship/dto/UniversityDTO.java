@@ -1,6 +1,7 @@
 package com.fortech.internship.dto;
 
 import com.fortech.internship.model.University;
+import com.fortech.internship.service.impl.mapper.ToDTO;
 
 public class UniversityDTO {
 	private int id;
@@ -18,7 +19,7 @@ public class UniversityDTO {
 
 	public UniversityDTO(University university) {
 		this.name = university.getName();
-		this.cityDTO = new CityDTO(university.getCity());
+		this.cityDTO = ToDTO.city(university.getCity());
 		this.id = university.getId();
 	}
 

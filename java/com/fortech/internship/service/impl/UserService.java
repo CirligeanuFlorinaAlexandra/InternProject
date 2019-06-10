@@ -16,13 +16,11 @@ import com.fortech.internship.dto.AddressDTO;
 import com.fortech.internship.dto.FacultyDTO;
 import com.fortech.internship.dto.UserDTO;
 import com.fortech.internship.model.User;
+import com.fortech.internship.service.impl.mapper.ToDTO;
+import com.fortech.internship.service.impl.mapper.ToEntity;
 
 @Service
-
 public class UserService {
-
-	@Autowired
-	private SessionFactory sessionFactory;
 
 	@Autowired
 	private UserDAO userDAO;
@@ -33,46 +31,29 @@ public class UserService {
 	@Autowired
 	private FacultyDAO facultyDAO;
 
-	@Transactional
+	@Transactional(readOnly = false)
 	public void createUser(UserDTO userDTO) {
-		User user = new User();
-		user.setApproved(userDTO.isApproved());
-		user.setEmail(userDTO.getEmail());
-		user.setName(userDTO.getName());
-		user.setAccessLevel(userDTO.getAccessLevel());
-		AddressDTO addressDTO = userDTO.getAddressDTO();
-		if (addressDTO != null) {
-			user.setAddress(addressDAO.getAddressById(addressDTO.getId()));
-		}
-		FacultyDTO facultyDTO = userDTO.getFacultyDTO();
-		if (facultyDTO != null) {
-			user.setFaculty(facultyDAO.getFacultyById(facultyDTO.getId()));
-		}
-		userDAO.createUser(user);
+		userDAO.createUser(ToEntity.user(userDTO));
 	}
 
-	@Transactional
-	public User getUserById(int id) {
-		// User user = userDAO.getUserById(id);
-		// return user;
-		Session session = sessionFactory.getCurrentSession();
-		User user = session.get(User.class, id);
-		UserDTO userDTO = new UserDTO(user);
-		return user;
+	@Transactional(readOnly = true)
+	public UserDTO getUserById(int id) {
+		UserDTO userDTO = ToDTO.user(userDAO.getUserById(id));
+		return userDTO;
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<UserDTO> getAllUsers() {
 
 		List<User> users = userDAO.getAllUsers();
 		List<UserDTO> usersDTO = new ArrayList<>();
 		for (User user : users) {
-			usersDTO.add(new UserDTO(user));
+			usersDTO.add(ToDTO.user(user));
 		}
 		return usersDTO;
 	}
 
-	@Transactional
+	@Transactional(readOnly = false)
 	public boolean updateUser(UserDTO userDTO) {
 		User user = null;
 		if (userDTO.getId() != 0) {
@@ -92,7 +73,7 @@ public class UserService {
 		return userDAO.updateUser(user);
 	}
 
-	@Transactional
+	@Transactional(readOnly = false)
 	public void deleteUser(int id) {
 		userDAO.deleteUser(id);
 	}

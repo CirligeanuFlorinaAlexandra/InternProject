@@ -10,7 +10,7 @@ import com.fortech.internship.model.User;
 
 public interface CityDAO {
 	
-	public void createCity(CityDTO address);
+	public void createCity(City city);
 	
 	public City getCityById(int id);
 	

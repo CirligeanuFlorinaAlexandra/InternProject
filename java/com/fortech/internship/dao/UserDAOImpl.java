@@ -9,7 +9,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fortech.internship.dto.AddressDTO;
+import com.fortech.internship.dto.FacultyDTO;
+import com.fortech.internship.dto.UserDTO;
 import com.fortech.internship.model.User;
+import com.fortech.internship.service.impl.mapper.ToEntity;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
@@ -22,6 +26,7 @@ public class UserDAOImpl implements UserDAO {
 	public void createUser(User user) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(user);
+
 	}
 
 	@Override
@@ -33,7 +38,8 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<User> getAllUsers() {
 		Session session = sessionFactory.getCurrentSession();
-		List<User> users = session.createQuery("select stu from User stu").getResultList();
+		List<User> users = session.createQuery("select stu from User stu")
+				.getResultList();
 		return users;
 	}
 
@@ -49,11 +55,14 @@ public class UserDAOImpl implements UserDAO {
 		User s = session.get(User.class, id);
 		session.remove(s);
 	}
-	
+
 	@Override
 	public User getUserByEmail(String email) {
-		return (User) sessionFactory.getCurrentSession()
-				.createQuery("select stu from User stu where stu.email='" + email + "'").getSingleResult();
+		return (User) sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"select stu from User stu where stu.email='" + email
+								+ "'").getSingleResult();
 
 	}
 }

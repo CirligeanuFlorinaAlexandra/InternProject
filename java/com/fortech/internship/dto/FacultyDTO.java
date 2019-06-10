@@ -17,12 +17,6 @@ public class FacultyDTO {
 		this.universityDTO = universityDTO;
 	}
 
-	public FacultyDTO(Faculty faculty) {
-		this.name = faculty.getName();
-		this.universityDTO = new UniversityDTO(faculty.getUniversity());
-		this.id = faculty.getId();
-	}
-
 	public int getId() {
 		return id;
 	}

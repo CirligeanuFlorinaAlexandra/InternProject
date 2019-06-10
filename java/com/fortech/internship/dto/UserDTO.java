@@ -1,6 +1,7 @@
 package com.fortech.internship.dto;
 import com.fortech.internship.dao.Level;
 import com.fortech.internship.model.User;
+import com.fortech.internship.service.impl.mapper.ToDTO;
 
 public class UserDTO {
 	private int id;
@@ -30,16 +31,6 @@ public class UserDTO {
 
 	public void setFacultyDTO(FacultyDTO facultyDTO) {
 		this.facultyDTO = facultyDTO;
-	}
-
-	public UserDTO(User user) {
-		this.name = user.getName();
-		this.email = user.getEmail();
-		this.addressDTO = new AddressDTO(user.getAddress());
-		this.accessLevel = user.getAccessLevel();
-		this.id = user.getId();
-		this.approved = user.getApproved();
-		this.facultyDTO = new FacultyDTO(user.getFaculty());
 	}
 
 	public int getId() {

@@ -1,7 +1,6 @@
 package com.fortech.internship.dao;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.hibernate.Session;
@@ -13,9 +12,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fortech.internship.dto.CityDTO;
-import com.fortech.internship.model.Address;
 import com.fortech.internship.model.City;
-import com.fortech.internship.model.User;
+import com.fortech.internship.service.impl.mapper.ToEntity;
 
 @Component
 @Repository
@@ -26,27 +24,25 @@ public class CityDAOImpl implements CityDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public void createCity(CityDTO cityDTO) {
-		Session session = sessionFactory.getCurrentSession();
-		City city = new City();
-		city.setName(cityDTO.getName());
-		city.setAddress(sessionFactory.getCurrentSession().get(Address.class, cityDTO.getAddressDTO().getId()));
+	public void createCity(City city) {
+		Session session = sessionFactory.getCurrentSession();		
 		session.save(city);
-		
 	}
 
 	@Override
 	public City getCityById(int id) {
 		//return sessionFactory.getCurrentSession().get(CityDTO.class, id);
 		Session session = sessionFactory.getCurrentSession();
+		
 		return session.get(City.class, id);
 	}
 
 	@Override
 	public List<City> getAllCities() {
-
 		Session session = sessionFactory.getCurrentSession();
+		
 		List<City> cities = session.createQuery("select c from City c").getResultList();
+		
 		return cities;
 	}
 
